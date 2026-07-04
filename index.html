@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Campanha de Arrecadação • Aprendizes SEST SENAT</title>
+<meta name="descricao" content="Campanha de arrecadação de itens de higiene, alimentos e materiais recicláveis promovida pelo Programa de Aprendizes do SEST SENAT.">
+
+<!-- Compartilhar nas redes sociais / WhatsApp -->
+<meta property="og:title" content="Campanha de Arrecadação • Aprendizes SEST SENAT">
+<meta property="og:description" content="Ajude a nossa campanha! Veja os itens, pontos de coleta e como contribuir.">
+<meta property="og:type" content="website">
+
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📦</text></svg>">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="style.css/style.css">
+</head>
+
+<body>
+
+<header class="cabecalho" id="topo">
+  <div class="container cabecalho-conteudo">
+    <a href="#topo" class="marca">
+      <!-- Trocar o arquivo abaixo pela logo do SEST SENAT -->
+      <img src="img/" alt="Logo do Programa de Aprendizes SEST SENAT" class="marca-logo">
+    </a>
+
+    <nav class="nav" id="nav">
+      <a href="#sobre">Sobre</a>
+      <a href="#itens">Itens</a>
+      <a href="#coleta">Pontos de Coleta</a>
+      <a href="#progresso">Progresso</a>
+      <a href="#ajudar">Como Ajudar</a>
+    </nav>
+
+    <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu" aria-expanded="false" aria-controls="nav">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<main>
+
+  <section class="hero">
+    <div class="container hero-conteudo">
+      <p class="etiqueta">Programa de Aprendizes • SEST SENAT</p>
+      <h1>Campanha de<br>Arrecadação</h1>
+      <p class="hero-subtitulo" id="asiloDestaque">Em prol do <strong>[Nome do Asilo]</strong></p>
+      <p class="hero-descricao" id="objetivoTexto">
+        Estamos arrecadando itens de higiene, alimentos e materiais recicláveis para levar mais conforto e cuidado ao Lar dos Idosos Perseverança.
+      </p>
+
+      <div class="painel-embarque">
+        <p class="painel-titulo">Chegada da doação em</p>
+        <div class="cronometro" id="countdown">
+          <div class="cronometro-bloco">
+            <span class="cronometro-numero" id="days">00</span>
+            <span class="cronometro-legenda">dias</span>
+          </div>
+          <span class="cronometro-separador">:</span>
+          <div class="cronometro-bloco">
+            <span class="cronometro-numero" id="hours">00</span>
+            <span class="cronometro-legenda">horas</span>
+          </div>
+          <span class="cronometro-separador">:</span>
+          <div class="cronometro-bloco">
+            <span class="cronometro-numero" id="minutes">00</span>
+            <span class="cronometro-legenda">min</span>
+          </div>
+          <span class="cronometro-separador">:</span>
+          <div class="cronometro-bloco">
+            <span class="cronometro-numero" id="seconds">00</span>
+            <span class="cronometro-legenda">seg</span>
+          </div>
+        </div>
+        <p class="painel-data">Data de entrega: <span id="deliveryDateText">[data por definir]</span></p>
+      </div>
+
+      <a href="#itens" class="botao botao-ambar">Quero ajudar ↓</a>
+    </div>
+  </section>
+
+  <div class="divisor" aria-hidden="true"></div>
+
+  <section id="sobre" class="secao reveal">
+    <div class="container">
+      <p class="etiqueta etiqueta-escura">Sobre a campanha</p>
+      <h2>O que estamos fazendo</h2>
+      <div class="grid-info">
+        <div class="cartao-info">
+          <span class="cartao-info-icone" aria-hidden="true">📅</span>
+          <span class="cartao-info-rotulo">Data</span>
+          <span class="cartao-info-valor" id="infoData">[data por definir]</span>
+        </div>
+        <div class="cartao-info">
+          <span class="cartao-info-icone" aria-hidden="true">📍</span>
+          <span class="cartao-info-rotulo">Local de entrega</span>
+          <span class="cartao-info-valor" id="infoLocal">[endereço por definir]</span>
+        </div>
+        <div class="cartao-info">
+          <span class="cartao-info-icone" aria-hidden="true">🏠</span>
+          <span class="cartao-info-rotulo">Instituição beneficiada:</span>
+          <span class="cartao-info-valor" id="infoInstituicao">Lar dos Idosos Perseverança</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="itens" class="secao secao-alt reveal">
+    <div class="container">
+      <p class="etiqueta etiqueta-escura">O que arrecadar</p>
+      <h2>Itens da campanha</h2>
+      <div class="grid-itens" id="itemsGrid"><!-- gerado via JavaScript a partir de CONFIG em script.js --></div>
+    </div>
+  </section>
+
+  <section id="coleta" class="secao reveal">
+    <div class="container">
+      <p class="etiqueta etiqueta-escura">Onde entregar</p>
+      <h2>Pontos de coleta</h2>
+      <div class="grid-pontos" id="pointsGrid"><!-- gerado via JavaScript a partir de CONFIG em script.js --></div>
+    </div>
+  </section>
+
+  <section id="progresso" class="secao secao-alt reveal">
+    <div class="container">
+      <p class="etiqueta etiqueta-escura">Em tempo real</p>
+      <h2>Progresso da arrecadação</h2>
+      <p class="progresso-atualizado" id="lastUpdated">Carregando dados da planilha...</p>
+      <div class="grid-progresso" id="progressGrid"></div>
+    </div>
+  </section>
+
+  <section id="ajudar" class="secao reveal">
+    <div class="container">
+      <p class="etiqueta etiqueta-escura">Outras formas de ajudar</p>
+      <h2>Também aceitamos</h2>
+      <div class="grid-ajuda">
+        <div class="cartao-ajuda">
+          <h3>💰 Doação via PIX</h3>
+          <p>Você também pode contribuir diretamente usando o CNPJ como chave PIX:</p>
+          <div class="caixa-pix">
+            <code id="pixKey">78.177.763/0001-08</code>
+            <button id="copyPixBtn" class="botao botao-contorno" type="button">Copiar</button>
+          </div>
+        </div>
+        <div class="cartao-ajuda">
+          <h3>🧾 Nota fiscal sem CPF</h3>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="rodape">
+  <div class="container rodape-conteudo">
+    <p>Uma iniciativa do Programa de Aprendizes SEST SENAT.</p>
+    <button id="shareBtn" class="botao botao-ambar" type="button">Compartilhar no WhatsApp</button>
+  </div>
+</footer>
+
+<script src="script.js/script.js"></script>
+</body>
+</html>
