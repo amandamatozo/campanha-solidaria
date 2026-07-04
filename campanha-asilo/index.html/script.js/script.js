@@ -163,7 +163,7 @@ async function carregarProgressoDaPlanilha() {
   if (!grade || !status) return;
 
   if (!CONFIG.sheetCsvUrl || CONFIG.sheetCsvUrl.includes('COLE_AQUI')) {
-    status.textContent = 'Configurem o link da planilha em CONFIG.sheetCsvUrl (veja o passo a passo no README.md) para exibir o progresso aqui.';
+    status.textContent = 'Configurar o link da planilha em CONFIG. para exibir o progresso aqui.';
     return;
   }
 
