@@ -106,14 +106,24 @@ function renderizarPontosDeColeta() {
   const grade = document.getElementById('pointsGrid');
   if (!grade) return;
 
-  grade.innerHTML = CONFIG.pontosDeColeta.map(ponto => `
-    <div class="point-card">
-      <span class="point-card-icone" aria-hidden="true">📍</span>
-      <h3>${escapeHTML(ponto.nome)}</h3>
-      <p>${escapeHTML(ponto.endereco)}</p>
-      <p class="point-card-horario">${escapeHTML(ponto.horario)}</p>
-    </div>
-  `).join('');
+  grade.innerHTML = CONFIG.pontosDeColeta.map(ponto => {
+    // Cria o link de busca combinando o nome do lugar + endereço para o Maps achar sem erro
+    const termoBusca = encodeURIComponent(`${ponto.nome}, ${ponto.endereco}`);
+    const urlMaps = `https://www.google.com/maps/search/?api=1&query=${termoBusca}`;
+
+    return `
+      <div class="point-card">
+        <span class="point-card-icone" aria-hidden="true">📍</span>
+        <h3>${escapeHTML(ponto.nome)}</h3>
+        <p>
+          <a href="${urlMaps}" target="_blank" rel="noopener noreferrer" class="link-maps">
+            ${escapeHTML(ponto.endereco)} ↗
+          </a>
+        </p>
+        <p class="point-card-horario">${escapeHTML(ponto.horario)}</p>
+      </div>
+    `;
+  }).join('');
 }
 
 /* Cronômetro até o dia da entrega */
