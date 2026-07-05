@@ -23,8 +23,8 @@ const CONFIG = {
 
   // Pontos físicos de coleta — A VERIFICAR!
   pontosDeColeta: [
-    { nome: '[Nome do ponto 1]', endereco: '[Endereço completo]', horario: '[Horário de funcionamento]' },
-    { nome: '[Nome do ponto 2]', endereco: '[Endereço completo]', horario: '[Horário de funcionamento]' },
+    { nome: 'SEST SENAT PARANAGUÁ', endereco: 'Endereço completo', horario: '08:00 às 18:00' },
+    { nome: 'Nome do ponto 2', endereco: 'Endereço completo', horario: 'Horário de funcionamento' },
   ],
 
   // Itens organizados por categoria
