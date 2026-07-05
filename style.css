@@ -258,13 +258,20 @@ a:focus-visible, button:focus-visible {
 .botao-contorno {
   border: 2px solid var(--azul-sestsenat);
   color: var(--azul-sestsenat);
-  padding: 9px 20px;
+  padding: 12px 24px; 
   border-radius: 999px;
-  font-size: 0.88rem;
-  transition: background 0.2s ease, color 0.2s ease;
+  font-size: 0.9rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px; 
+  transition: background 0.2s ease, color 0.2s ease, transform 0.1s ease;
 }
 
-.botao-contorno:hover { background: var(--azul-sestsenat); color: var(--branco); }
+.botao-contorno:active {
+  transform: scale(0.97); 
+}
 
 /* ================================================================
    DIVISOR ESTILO FAIXA DE RODOVIA
@@ -472,4 +479,11 @@ a:focus-visible, button:focus-visible {
 
   .secao { padding: 88px 0; }
   .secao h2 { font-size: 2.1rem; }
+}
+
+.caixa-pix, .botao {
+  user-select: none !important;
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
 }

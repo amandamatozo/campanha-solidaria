@@ -269,19 +269,24 @@ function configurarMenuMobile() {
   });
 }
 
-/* Botão de copiar a chave PIX */
+/* Botão de copiar a chave PIX — Versão Otimizada para Mobile */
 function configurarBotaoCopiarPix() {
   const botao = document.getElementById('copyPixBtn');
   if (!botao) return;
 
-  botao.addEventListener('click', async () => {
+  botao.addEventListener('click', async (evento) => {
+    evento.preventDefault();
+    
     const textoOriginal = botao.textContent;
+    const chaveApenasNumeros = String(CONFIG.pixKey).replace(/[^0-9]/g, '');
+
     try {
-      await navigator.clipboard.writeText(CONFIG.pixKey);
+      await navigator.clipboard.writeText(chaveApenasNumeros);
       botao.textContent = 'Copiado ✓';
     } catch (erro) {
-      botao.textContent = 'Copie manualmente';
+      botao.textContent = 'Erro ao copiar';
     }
+    
     setTimeout(() => { botao.textContent = textoOriginal; }, 2000);
   });
 }
