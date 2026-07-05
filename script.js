@@ -99,6 +99,8 @@ function renderizarItens() {
       </ul>
     </div>
   `).join('');
+
+  iniciarCategoriasColapsaveis();
 }
 
 /* Monta os cartões de pontos de coleta */
@@ -318,3 +320,28 @@ function configurarRevelacaoAoRolar() {
 
   secoes.forEach(secao => observador.observe(secao));
 }
+
+
+
+/* Lógica para recolher categorias no Mobile (Sistema Sanfona via Delegação de Eventos) */
+function iniciarCategoriasColapsaveis() {
+  if (window.innerWidth > 768) return;
+
+  document.addEventListener('click', (event) => {
+    const titulo = event.target.closest('.item-card h3');
+    
+    if (titulo) {
+      const card = titulo.closest('.item-card');
+      if (card) {
+        card.classList.toggle('ativa');
+      }
+    }
+  });
+}
+iniciarCategoriasColapsaveis();
+
+// Aguarda 1 segundo (1000ms) após a página carregar para forçar a ativação do clique
+setTimeout(() => {
+  console.log("Ativando cliques da sanfona...");
+  iniciarCategoriasColapsaveis();
+}, 1000);

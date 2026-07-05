@@ -473,3 +473,52 @@ a:focus-visible, button:focus-visible {
   .secao { padding: 88px 0; }
   .secao h2 { font-size: 2.1rem; }
 }
+
+/* ==========================================================================
+   SISTEMA SANFONA (ACCORDION) PARA CATEGORIAS - APENAS MOBILE
+   ========================================================================== */
+
+@media (max-width: 768px) {
+  /* Torna o título (H3) visualmente amigável para o clique */
+  .item-card h3 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    margin: 0;
+    padding: 4px 0;
+    user-select: none;
+  }
+
+  /* Adiciona a setinha na direita do título H3 */
+  .item-card h3::after {
+    content: '▼';
+    font-size: 0.8rem;
+    transition: transform 0.3s ease;
+    color: var(--texto-mutado, #666);
+  }
+
+  /* Quando o cartão estiver ativo, a seta gira para cima */
+  .item-card.ativa h3::after {
+    transform: rotate(180deg);
+  }
+
+  /* Esconde a lista UL por padrão no mobile */
+  .item-card ul {
+    display: none;
+    margin-top: 15px;
+    padding-left: 20px;
+  }
+
+  /* Mostra a lista apenas quando o card tiver a classe 'ativa' */
+  .item-card.ativa ul {
+    display: block;
+    animation: deslizarParaBaixo 0.25s ease-out;
+  }
+}
+
+/* Animação suave para abertura */
+@keyframes deslizarParaBaixo {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
