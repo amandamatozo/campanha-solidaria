@@ -149,7 +149,7 @@ function renderizarCarrossel() {
  
   trilho.innerHTML = fotos.map(foto => `
     <div class="carrossel-slide">
-      <img src="${foto.src}" alt="${escapeHTML(foto.alt || '')}" loading="lazy">
+     <img src="${foto.src}" alt="${escapeHTML(foto.alt || '')}">
       ${foto.legenda ? `<p class="carrossel-legenda">${escapeHTML(foto.legenda)}</p>` : ''}
     </div>
   `).join('');
