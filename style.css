@@ -13,10 +13,9 @@
 
   --fundo-claro: #F3F6FB;
   --branco:      #FFFFFF;
-  --texto:       #284174;
+  --texto:       #16233D;
   --texto-suave: #4B5768;
   --borda:       #DCE3EF;
-  --h1: #FFFFFF;
 
   --fonte-display: 'Space Grotesk', sans-serif;
   --fonte-corpo:   'IBM Plex Sans', sans-serif;
@@ -49,7 +48,7 @@ a { color: inherit; text-decoration: none; }
 button { font-family: inherit; cursor: pointer; border: none; background: none; }
 code { font-family: var(--fonte-mono); }
 
-h2, h3 {
+h1, h2, h3 {
   font-family: var(--fonte-display);
   color: var(--texto);
   line-height: 1.15;
@@ -82,11 +81,11 @@ a:focus-visible, button:focus-visible {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 110px;
+  height: 72px;
 }
 
 .marca { display: flex; align-items: center; }
-.marca-logo { height: 200px; width: auto; }
+.marca-logo { height: 40px; width: auto; }
 
 .nav {
   display: none;
@@ -259,20 +258,13 @@ a:focus-visible, button:focus-visible {
 .botao-contorno {
   border: 2px solid var(--azul-sestsenat);
   color: var(--azul-sestsenat);
-  padding: 12px 24px; 
+  padding: 9px 20px;
   border-radius: 999px;
-  font-size: 0.9rem;
-  font-weight: 600;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 48px; 
-  transition: background 0.2s ease, color 0.2s ease, transform 0.1s ease;
+  font-size: 0.88rem;
+  transition: background 0.2s ease, color 0.2s ease;
 }
 
-.botao-contorno:active {
-  transform: scale(0.97); 
-}
+.botao-contorno:hover { background: var(--azul-sestsenat); color: var(--branco); }
 
 /* ================================================================
    DIVISOR ESTILO FAIXA DE RODOVIA
@@ -289,6 +281,85 @@ a:focus-visible, button:focus-visible {
 .secao { padding: 64px 0; }
 .secao-alt { background: var(--fundo-claro); }
 .secao h2 { font-size: 1.7rem; margin-bottom: 28px; }
+
+/* Seção Associação Beneficiada */
+.secao-associacao {
+  padding: 45px 0;
+  background-color: #f4f7f6; 
+  text-align: center;
+}
+
+.secao-associacao h2 {
+  margin-bottom: 16px;
+  color: #222;
+  font-size: 1.8rem;
+}
+
+.secao-associacao p {
+  max-width: 720px;
+  margin: 0 auto 28px auto;
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: #444;
+}
+
+.botoes-associacao {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.btn-rede {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-rede:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* Cores customizadas */
+.btn-insta {
+  background-color: #fff;
+  color: #e1306c;
+  border: 2px solid #e1306c;
+}
+
+.btn-face {
+  background-color: #1877f2;
+  color: #fff;
+}
+
+.btn-site {
+  background-color: #0056b3; 
+  color: #fff;
+}
+
+@media (max-width: 768px) {
+  .secao-associacao {
+    padding: 35px 16px;
+  }
+  
+  .botoes-associacao {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .btn-rede {
+    justify-content: center;
+    width: 100%;
+    padding: 14px;
+  }
+}
 
 /* ---------- Sobre a campanha ---------- */
 .grid-info { display: grid; gap: 16px; grid-template-columns: 1fr; }
@@ -482,9 +553,137 @@ a:focus-visible, button:focus-visible {
   .secao h2 { font-size: 2.1rem; }
 }
 
-.caixa-pix, .botao {
-  user-select: none !important;
-  -webkit-user-select: none !important;
-  -moz-user-select: none !important;
-  -ms-user-select: none !important;
+/* ==========================================================================
+   SISTEMA SANFONA (ACCORDION) PARA CATEGORIAS - APENAS MOBILE
+   ========================================================================== */
+
+@media (max-width: 768px) {
+  /* Torna o título (H3) visualmente amigável para o clique */
+  .item-card h3 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    margin: 0;
+    padding: 4px 0;
+    user-select: none;
+  }
+
+  /* Adiciona a setinha na direita do título H3 */
+  .item-card h3::after {
+    content: '▼';
+    font-size: 0.8rem;
+    transition: transform 0.3s ease;
+    color: var(--texto-mutado, #666);
+  }
+
+  /* Quando o cartão estiver ativo, a seta gira para cima */
+  .item-card.ativa h3::after {
+    transform: rotate(180deg);
+  }
+
+  /* Esconde a lista UL por padrão no mobile */
+  .item-card ul {
+    display: none;
+    margin-top: 15px;
+    padding-left: 20px;
+  }
+
+  /* Mostra a lista apenas quando o card tiver a classe 'ativa' */
+  .item-card.ativa ul {
+    display: block;
+    animation: deslizarParaBaixo 0.25s ease-out;
+  }
+}
+
+/* Animação suave para abertura */
+@keyframes deslizarParaBaixo {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+
+.secao-padrao {
+  padding: 60px 0; 
+  background-color: var(--fundo-claro); 
+  text-align: left; 
+}
+
+.tag-secao {
+  display: block;
+  color: #ff4a7a;
+  font-size: 0.75rem;
+  text-transform: uppercase; 
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+}
+
+.secao-padrao h2 {
+  color: #0f2942; 
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.descricao-associacao {
+  max-width: 800px;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #555;
+  margin-bottom: 24px;
+}
+
+.botoes-associacao-alinhados {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.btn-rede-real {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+}
+
+.azul-claro {
+  background-color: #f0f4f8;
+  color: #e1306c; 
+  border: 1px solid rgba(225, 48, 108, 0.2);
+}
+
+.azul-escuro {
+  background-color: #1877f2;
+  color: #ffffff;
+}
+
+.cor-site {
+  background-color: #0066cc;
+  color: #ffffff;
+}
+
+.logo-svg {
+  width: 18px;
+  height: 18px;
+}
+
+.btn-rede-real:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+@media (max-width: 768px) {
+  .botoes-associacao-alinhados {
+    flex-direction: column;
+  }
+  .btn-rede-real {
+    width: 100%;
+    justify-content: center;
+  }
 }
