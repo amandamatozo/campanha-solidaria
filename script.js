@@ -18,8 +18,21 @@ const CONFIG = {
   // Chave PIX para quem quiser doar em dinheiro
   pixKey: '78.177.763/0001-08',
 
-  // Link CSV da planilha do Google Sheets
-  sheetCsvUrl: 'COLAR-O-LINK-DA-PLANILHA-AQUI', 
+  // Link CSV da planilha do Google Sheet
+  sheetCsvUrl: 'COLAR-O-LINK-DA-PLANILHA-AQUI',
+  
+// Fotos do carrossel/galeria //
+
+fotosCarrossel: [
+ {src: 'img/fotoscarrossel/figure1.jpg', alt:'', legenda:''},
+ {src: 'img/fotoscarrossel/figure2.jpg', alt:'', legenda:''},
+ {src: 'img/fotoscarrossel/figure3.jpg', alt:'', legenda:''},
+ {src: 'img/fotoscarrossel/figure4.jpg', alt:'', legenda:''},
+ {src: 'img/fotoscarrossel/figure5.jpg', alt:'', legenda:''},
+ {src: 'img/fotoscarrossel/figure6.jpg', alt:'', legenda:''},
+ {src: 'img/fotoscarrossel/figure7.jpg', alt:'', legenda:''},
+ {src: 'img/fotoscarrossel/figure8.jpg', alt:'', legenda:''},
+],
 
   // Pontos físicos de coleta — A VERIFICAR!
   pontosDeColeta: [
@@ -48,13 +61,14 @@ const CONFIG = {
 };
 
 /* ================================================================
-   Não precisa editar nada abaixo desta linha!
+   
    ================================================================ */
 
 document.addEventListener('DOMContentLoaded', () => {
   preencherTextos();
   renderizarItens();
   renderizarPontosDeColeta();
+  renderizarCarrossel();
   iniciarCronometro();
   carregarProgressoDaPlanilha();
   configurarMenuMobile();
@@ -115,6 +129,107 @@ function renderizarPontosDeColeta() {
     </div>
   `).join('');
 }
+
+//Carrossel de fotos//
+
+function renderizarCarrossel() {
+  const carrossel = document.getElementById('carrossel');
+  const trilho = document.getElementById('carrosselTrilho');
+  const indicadoresContainer = document.getElementById('carrosselIndicadores');
+  const botaoAnterior = document.getElementById('carrosselAnterior');
+  const botaoProxima = document.getElementById('carrosselProxima');
+  if (!carrossel || !trilho || !indicadoresContainer) return;
+ 
+  const fotos = CONFIG.fotosCarrossel || [];
+ 
+  if (!fotos.length) {
+    carrossel.innerHTML = '<p class="carrossel-vazio">Em breve, fotos da campanha por aqui.</p>';
+    return;
+  }
+ 
+  trilho.innerHTML = fotos.map(foto => `
+    <div class="carrossel-slide">
+      <img src="${foto.src}" alt="${escapeHTML(foto.alt || '')}" loading="lazy">
+      ${foto.legenda ? `<p class="carrossel-legenda">${escapeHTML(foto.legenda)}</p>` : ''}
+    </div>
+  `).join('');
+ 
+  indicadoresContainer.innerHTML = fotos.map((_, indice) => `
+    <button class="carrossel-indicador${indice === 0 ? ' ativo' : ''}" type="button" aria-label="Ir para a foto ${indice + 1}" data-indice="${indice}"></button>
+  `).join('');
+ 
+  const indicadores = indicadoresContainer.querySelectorAll('.carrossel-indicador');
+  const prefereReduzirMovimento = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+ 
+  let indiceAtual = 0;
+  let autoplayId = null;
+ 
+  function irParaSlide(indice) {
+    indiceAtual = (indice + fotos.length) % fotos.length;
+    trilho.style.transform = `translateX(-${indiceAtual * 100}%)`;
+    indicadores.forEach((ponto, i) => ponto.classList.toggle('ativo', i === indiceAtual));
+  }
+ 
+  function proximoSlide() { irParaSlide(indiceAtual + 1); }
+  function slideAnterior() { irParaSlide(indiceAtual - 1); }
+ 
+  function iniciarAutoplay() {
+    if (prefereReduzirMovimento || fotos.length < 2 || document.hidden) return;
+    autoplayId = setInterval(proximoSlide, 8000);
+  }
+ 
+  function pararAutoplay() {
+    if (autoplayId) { clearInterval(autoplayId); autoplayId = null; }
+  }
+ 
+  function reiniciarAutoplay() {
+    pararAutoplay();
+    iniciarAutoplay();
+  }
+ 
+  if (botaoProxima) botaoProxima.addEventListener('click', () => { proximoSlide(); reiniciarAutoplay(); });
+  if (botaoAnterior) botaoAnterior.addEventListener('click', () => { slideAnterior(); reiniciarAutoplay(); });
+ 
+  indicadores.forEach(ponto => {
+    ponto.addEventListener('click', () => {
+      irParaSlide(Number(ponto.dataset.indice));
+      reiniciarAutoplay();
+    });
+  });
+ 
+  carrossel.setAttribute('tabindex', '0');
+  carrossel.addEventListener('keydown', (evento) => {
+    if (evento.key === 'ArrowRight') { proximoSlide(); reiniciarAutoplay(); }
+    if (evento.key === 'ArrowLeft') { slideAnterior(); reiniciarAutoplay(); }
+  });
+ 
+  let toqueInicialX = 0;
+  trilho.addEventListener('touchstart', (evento) => {
+    toqueInicialX = evento.touches[0].clientX;
+    pararAutoplay();
+  }, { passive: true });
+ 
+  trilho.addEventListener('touchend', (evento) => {
+    const deltaX = evento.changedTouches[0].clientX - toqueInicialX;
+    if (Math.abs(deltaX) > 40) {
+      deltaX < 0 ? proximoSlide() : slideAnterior();
+    }
+    reiniciarAutoplay();
+  }, { passive: true });
+ 
+  carrossel.addEventListener('mouseenter', pararAutoplay);
+  carrossel.addEventListener('mouseleave', iniciarAutoplay);
+  carrossel.addEventListener('focusin', pararAutoplay);
+  carrossel.addEventListener('focusout', iniciarAutoplay);
+ 
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) pararAutoplay(); else iniciarAutoplay();
+  });
+ 
+  iniciarAutoplay();
+}
+
+
 
 /* Cronômetro até o dia da entrega */
 function iniciarCronometro() {
