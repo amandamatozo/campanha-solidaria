@@ -393,6 +393,32 @@ a:focus-visible, button:focus-visible {
   border-radius: var(--raio);
 }
 
+/* Ajustes do carrossel para celular */
+@media (max-width: 599px) {
+  .carrossel-slide img {
+    height: 240px;
+  }
+
+  .carrossel-seta {
+    width: 34px;
+    height: 34px;
+    font-size: 1.1rem;
+  }
+
+  .carrossel-seta-anterior { left: 8px; }
+  .carrossel-seta-proxima { right: 8px; }
+
+  .carrossel-legenda {
+    font-size: 0.82rem;
+    padding: 10px 14px;
+  }
+
+  .carrossel-indicador {
+    width: 8px;
+    height: 8px;
+  }
+}
+
 .cartao-info-icone { font-size: 1.5rem; margin-bottom: 6px; }
 .cartao-info-rotulo { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--texto-suave); }
 .cartao-info-valor { font-family: var(--fonte-display); font-size: 1.1rem; font-weight: 600; }
