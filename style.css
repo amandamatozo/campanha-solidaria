@@ -394,10 +394,10 @@ a:focus-visible, button:focus-visible {
 }
 
 /* Ajustes do carrossel para celular */
-@media (max-width: 399px) {
+@media (max-width: 299px) {
   .carrossel-slide img {
     height: 240px;
-    object-fit: contain;
+    object-fit: cover;
   }
 
   .carrossel-seta {
