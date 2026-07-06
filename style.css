@@ -323,7 +323,7 @@ a:focus-visible, button:focus-visible {
 .carrossel-slide img {
   width: 100%;
   height: 400px;
-  object-fit: cover;
+  object-fit: contain;
   display: block;
 }
 
@@ -397,6 +397,7 @@ a:focus-visible, button:focus-visible {
 @media (max-width: 599px) {
   .carrossel-slide img {
     height: 240px;
+    object-fit: contain;
   }
 
   .carrossel-seta {
