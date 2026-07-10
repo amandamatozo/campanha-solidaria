@@ -13,7 +13,7 @@ const CONFIG = {
   // Data e local da entrega
   dataEntregaTexto: '24 de Julho de 2026',       
   dataEntregaISO: '2026-07-24T14:00:00',        // para o cronômetro. Formato: AAAA-MM-DDTHH:MM:SS
-  localEntrega: '[endereço do asilo]', 
+  localEntrega: ' R. dos Expedicionários, 782 - Ponta do Caju, Paranaguá - PR, 83206-450', 
 
   // Chave PIX para quem quiser doar em dinheiro
   pixKey: '78.177.763/0001-08',
