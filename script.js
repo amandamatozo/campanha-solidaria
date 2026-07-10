@@ -36,8 +36,8 @@ fotosCarrossel: [
 
   // Pontos físicos de coleta — A VERIFICAR!
   pontosDeColeta: [
-    { nome: '[Nome do ponto 1]', endereco: '[Endereço completo]', horario: '[Horário de funcionamento]' },
-    { nome: '[Nome do ponto 2]', endereco: '[Endereço completo]', horario: '[Horário de funcionamento]' },
+    { nome: 'SEST SENAT PARANAGUÁ', endereco: 'Endereço completo', horario: '08:00 às 18:00' },
+    { nome: 'Nome do ponto 2', endereco: 'Endereço completo', horario: 'Horário de funcionamento' },
   ],
 
   // Itens organizados por categoria
@@ -120,14 +120,24 @@ function renderizarPontosDeColeta() {
   const grade = document.getElementById('pointsGrid');
   if (!grade) return;
 
-  grade.innerHTML = CONFIG.pontosDeColeta.map(ponto => `
-    <div class="point-card">
-      <span class="point-card-icone" aria-hidden="true">📍</span>
-      <h3>${escapeHTML(ponto.nome)}</h3>
-      <p>${escapeHTML(ponto.endereco)}</p>
-      <p class="point-card-horario">${escapeHTML(ponto.horario)}</p>
-    </div>
-  `).join('');
+  grade.innerHTML = CONFIG.pontosDeColeta.map(ponto => {
+    // Cria o link de busca combinando o nome do lugar + endereço para o Maps achar sem erro
+    const termoBusca = encodeURIComponent(`${ponto.nome}, ${ponto.endereco}`);
+    const urlMaps = `https://www.google.com/maps/search/?api=1&query=${termoBusca}`;
+
+    return `
+      <div class="point-card">
+        <span class="point-card-icone" aria-hidden="true">📍</span>
+        <h3>${escapeHTML(ponto.nome)}</h3>
+        <p>
+          <a href="${urlMaps}" target="_blank" rel="noopener noreferrer" class="link-maps">
+            ${escapeHTML(ponto.endereco)} ↗
+          </a>
+        </p>
+        <p class="point-card-horario">${escapeHTML(ponto.horario)}</p>
+      </div>
+    `;
+  }).join('');
 }
 
 //Carrossel de fotos//

@@ -598,9 +598,17 @@ a:focus-visible, button:focus-visible {
   .secao h2 { font-size: 2.1rem; }
 }
 
-.caixa-pix, .botao {
-  user-select: none !important;
-  -webkit-user-select: none !important;
-  -moz-user-select: none !important;
-  -ms-user-select: none !important;
+/* Estilização do Link do Google Maps */
+.link-maps {
+  color: #0066cc; /* Cor azul clássica de link, ou mude para var(--cor-primaria) se o projeto tiver */
+  text-decoration: none;
+  font-weight: 500;
+  display: inline-block;
+  margin-top: 4px;
+  transition: color 0.2s ease;
+}
+
+.link-maps:hover {
+  color: #004499;
+  text-decoration: underline;
 }
