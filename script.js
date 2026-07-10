@@ -8,7 +8,7 @@ const CONFIG = {
   nomeAsilo: 'Lar dos Idosos Perseverança', 
 
   // objetivo da campanha
-  objetivo: 'Estamos arrecadando itens de higiene, alimentos e materiais recicláveis para levar mais conforto e cuidado aos idosos.', 
+  objetivo: 'Estamos arrecadando itens de inverno, produtos de higiene, alimentos e materiais recicláveis para proporcionar mais conforto, cuidado e qualidade de vida aos idosos.', 
 
   // Data e local da entrega
   dataEntregaTexto: '24 de Julho de 2026',       
