@@ -32,18 +32,23 @@ const CONFIG = {
     {
       categoria: 'Higiene Pessoal',
       icone: '🧼',
-      itens: ['Sabonete em barra', 'Sabonete líquido', 'Shampoo', 'Condicionador', 'Desodorante aerosol', 'Talco', 'Hidratante'],
+      itens: ['Sabonete em barra', 'Sabonete líquido', 'Shampoo', 'Condicionador', 'Desodorante aerosol', 'Talco', 'Hidratante', 'Lenço Umedecido'],
     },
     {
       categoria: 'Alimentos',
       icone: '🍚',
-      itens: ['Açúcar', 'Feijão', 'Macarrão'],
+      itens: ['Açúcar', 'Feijão', 'Macarrão', 'Bolacha doce/salgada', 'Leite', 'Leite em pó', 'Margarina', 'Azeite', 'Trigo', 'Café', 'Arroz integral'],
     },
     {
       categoria: 'Recicláveis Solidários',
       icone: '♻️',
       itens: ['Tampinhas de garrafa', 'Lacre de alumínio (latinhas)', 'Óleo de cozinha novo ou usado'],
     },
+    {
+      categoria: 'Itens de Inverno',
+      icone: '🧣',
+      itens: ['Cobertores', 'Agasalhos', 'Calças', 'Meias', 'Luvas', 'Toucas', 'Cachecóis'],
+    }
   ],
 };
 
