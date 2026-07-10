@@ -8,7 +8,7 @@ const CONFIG = {
   nomeAsilo: 'Lar dos Idosos Perseverança', 
 
   // objetivo da campanha
-  objetivo: 'Estamos arrecadando itens de higiene, alimentos e materiais recicláveis para levar mais conforto e cuidado aos idosos.', 
+  objetivo: 'Estamos arrecadando itens de inverno, produtos de higiene, alimentos e materiais recicláveis para proporcionar mais conforto, cuidado e qualidade de vida aos idosos.', 
 
   // Data e local da entrega
   dataEntregaTexto: '24 de Julho de 2026',       
@@ -37,7 +37,7 @@ fotosCarrossel: [
   // Pontos físicos de coleta — A VERIFICAR!
   pontosDeColeta: [
     { nome: 'SEST SENAT PARANAGUÁ', endereco: 'Endereço completo', horario: '08:00 às 18:00' },
-    { nome: 'Nome do ponto 2', endereco: 'Endereço completo', horario: 'Horário de funcionamento' },
+    { nome: 'Ponto 2', endereco: 'Endereço completo', horario: 'Em análise' },
   ],
 
   // Itens organizados por categoria
@@ -45,7 +45,7 @@ fotosCarrossel: [
     {
       categoria: 'Higiene Pessoal',
       icone: '🧼',
-      itens: ['Sabonete em barra', 'Sabonete líquido', 'Shampoo', 'Condicionador', 'Desodorante aerosol', 'Talco', 'Hidratante'],
+      itens: ['Sabonete em barra', 'Sabonete líquido', 'Shampoo', 'Condicionador', 'Desodorante aerosol', 'Talco', 'Hidratante', 'Escova de dentes', 'Creme dental'],
     },
     {
       categoria: 'Alimentos',
@@ -57,6 +57,11 @@ fotosCarrossel: [
       icone: '♻️',
       itens: ['Tampinhas de garrafa', 'Lacre de alumínio (latinhas)', 'Óleo de cozinha novo ou usado'],
     },
+    {
+      categoria: 'Itens de Inverno',
+      icone: '🧣',
+      itens: ['Agasalhos', 'Calças', 'Meias', 'Blusas', 'Toucas', 'Cobertores', 'Mantas', 'Luvas'],
+    }
   ],
 };
 
