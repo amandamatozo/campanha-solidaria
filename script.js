@@ -8,7 +8,7 @@ const CONFIG = {
   nomeAsilo: 'Lar dos Idosos Perseverança', 
 
   // objetivo da campanha
-  objetivo: 'Estamos arrecadando itens de higiene, alimentos e materiais recicláveis para levar mais conforto e cuidado aos idosos.', 
+  objetivo: 'Estamos arrecadando itens de inverno, produtos de higiene, alimentos e materiais recicláveis para proporcionar mais conforto, cuidado e qualidade de vida aos idosos.', 
 
   // Data e local da entrega
   dataEntregaTexto: '24 de Julho de 2026',       
@@ -18,21 +18,8 @@ const CONFIG = {
   // Chave PIX para quem quiser doar em dinheiro
   pixKey: '78.177.763/0001-08',
 
-  // Link CSV da planilha do Google Sheet
-  sheetCsvUrl: 'COLAR-O-LINK-DA-PLANILHA-AQUI',
-  
-// Fotos do carrossel/galeria //
-
-fotosCarrossel: [
- {src: 'img/fotoscarrossel/figure1.jpg', alt:'', legenda:''},
- {src: 'img/fotoscarrossel/figure2.jpg', alt:'', legenda:''},
- {src: 'img/fotoscarrossel/figure3.jpg', alt:'', legenda:''},
- {src: 'img/fotoscarrossel/figure4.jpg', alt:'', legenda:''},
- {src: 'img/fotoscarrossel/figure5.jpg', alt:'', legenda:''},
- {src: 'img/fotoscarrossel/figure6.jpg', alt:'', legenda:''},
- {src: 'img/fotoscarrossel/figure7.jpg', alt:'', legenda:''},
- {src: 'img/fotoscarrossel/figure8.jpg', alt:'', legenda:''},
-],
+  // Link da planilha do Google Sheets
+  sheetCsvUrl: 'https://docs.google.com/spreadsheets/d/1YMVwIdreCJJPE4in5t9GUaPgoGSxMZvngUiazOo3oKo/gviz/tq?tqx=out:csv&gid=0',
 
   // Pontos físicos de coleta — A VERIFICAR!
   pontosDeColeta: [
@@ -70,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
   renderizarPontosDeColeta();
   renderizarCarrossel();
   iniciarCronometro();
-  carregarProgressoDaPlanilha();
+  carregarItensArrecadados();  // carrega o progresso da arrecadação a partir da planilha//
   configurarMenuMobile();
   configurarBotaoCopiarPix();
   configurarBotaoCompartilhar();
@@ -282,15 +269,12 @@ function atualizarNumero(id, valor) {
 }
 
 /* Progresso da arrecadação, lido da planilha do Google Sheets */
-async function carregarProgressoDaPlanilha() {
+async function carregarItensArrecadados() {
   const grade = document.getElementById('progressGrid');
   const status = document.getElementById('lastUpdated');
   if (!grade || !status) return;
 
-  if (!CONFIG.sheetCsvUrl || CONFIG.sheetCsvUrl.includes('COLE_AQUI')) {
-    status.textContent = 'Configurem o link da planilha em CONFIG.sheetCsvUrl (veja o passo a passo no README.md) para exibir o progresso aqui.';
-    return;
-  }
+  //parte não necessária mais//
 
   try {
     const separador = CONFIG.sheetCsvUrl.includes('?') ? '&' : '?';
@@ -298,8 +282,9 @@ async function carregarProgressoDaPlanilha() {
     if (!resposta.ok) throw new Error('Não foi possível acessar a planilha.');
 
     const textoCSV = await resposta.text();
+    console.log(textoCSV);
     const linhas = interpretarCSV(textoCSV).filter(linha => linha.length && linha[0]);
-    const [, ...dados] = linhas; // a primeira linha é o cabeçalho (Item, Meta, Arrecadado)
+    const [, ...dados] = linhas; // a primeira linha é o cabeçalho (Item, Arrecadado)
 
     if (!dados.length) {
       status.textContent = 'A planilha ainda não tem itens cadastrados.';
@@ -307,24 +292,20 @@ async function carregarProgressoDaPlanilha() {
       return;
     }
 
+
+    //informação das colunas na planilha, alterar caso a planilha tenha mais de duas colunas//
     grade.innerHTML = dados.map(linha => {
-      const [nome, meta, arrecadado] = linha;
-      const metaNumero = parseFloat(meta) || 0;
-      const arrecadadoNumero = parseFloat(arrecadado) || 0;
-      const percentual = metaNumero > 0 ? Math.min(100, Math.round((arrecadadoNumero / metaNumero) * 100)) : null;
+      const [nome, arrecadado] = linha;
+
+const arrecadadoNumero = parseFloat(arrecadado) || 0;
 
       return `
-        <div class="progress-card">
-          <div class="progress-card-header">
-            <span class="progress-item-nome">${escapeHTML(nome || '')}</span>
-            <span class="progress-item-numero">${arrecadadoNumero}${metaNumero > 0 ? ' / ' + metaNumero : ''}</span>
-          </div>
-          ${percentual !== null ? `
-            <div class="progress-bar">
-              <div class="progress-bar-fill" style="width:${percentual}%"></div>
-            </div>
-          ` : ''}
-        </div>
+  <div class="progress-card">
+    <div class="progress-card-header">
+      <span class="progress-item-nome">${escapeHTML(nome)}</span>
+      <span class="progress-item-numero">${arrecadadoNumero} Arrecadados</span>
+    </div>
+  </div>
       `;
     }).join('');
 
