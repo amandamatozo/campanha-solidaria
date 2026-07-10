@@ -23,8 +23,8 @@ const CONFIG = {
 
   // Pontos físicos de coleta — A VERIFICAR!
   pontosDeColeta: [
-    { nome: '[Nome do ponto 1]', endereco: '[Endereço completo]', horario: '[Horário de funcionamento]' },
-    { nome: '[Nome do ponto 2]', endereco: '[Endereço completo]', horario: '[Horário de funcionamento]' },
+    { nome: 'SEST SENAT PARANAGUÁ', endereco: 'Endereço completo', horario: '08:00 às 18:00' },
+    { nome: 'Nome do ponto 2', endereco: 'Endereço completo', horario: 'Horário de funcionamento' },
   ],
 
   // Itens organizados por categoria
@@ -48,13 +48,14 @@ const CONFIG = {
 };
 
 /* ================================================================
-   Não precisa editar nada abaixo desta linha!
+   
    ================================================================ */
 
 document.addEventListener('DOMContentLoaded', () => {
   preencherTextos();
   renderizarItens();
   renderizarPontosDeColeta();
+  renderizarCarrossel();
   iniciarCronometro();
   carregarItensArrecadados();  // carrega o progresso da arrecadação a partir da planilha//
   configurarMenuMobile();
@@ -106,15 +107,126 @@ function renderizarPontosDeColeta() {
   const grade = document.getElementById('pointsGrid');
   if (!grade) return;
 
-  grade.innerHTML = CONFIG.pontosDeColeta.map(ponto => `
-    <div class="point-card">
-      <span class="point-card-icone" aria-hidden="true">📍</span>
-      <h3>${escapeHTML(ponto.nome)}</h3>
-      <p>${escapeHTML(ponto.endereco)}</p>
-      <p class="point-card-horario">${escapeHTML(ponto.horario)}</p>
+  grade.innerHTML = CONFIG.pontosDeColeta.map(ponto => {
+    // Cria o link de busca combinando o nome do lugar + endereço para o Maps achar sem erro
+    const termoBusca = encodeURIComponent(`${ponto.nome}, ${ponto.endereco}`);
+    const urlMaps = `https://www.google.com/maps/search/?api=1&query=${termoBusca}`;
+
+    return `
+      <div class="point-card">
+        <span class="point-card-icone" aria-hidden="true">📍</span>
+        <h3>${escapeHTML(ponto.nome)}</h3>
+        <p>
+          <a href="${urlMaps}" target="_blank" rel="noopener noreferrer" class="link-maps">
+            ${escapeHTML(ponto.endereco)} ↗
+          </a>
+        </p>
+        <p class="point-card-horario">${escapeHTML(ponto.horario)}</p>
+      </div>
+    `;
+  }).join('');
+}
+
+//Carrossel de fotos//
+
+function renderizarCarrossel() {
+  const carrossel = document.getElementById('carrossel');
+  const trilho = document.getElementById('carrosselTrilho');
+  const indicadoresContainer = document.getElementById('carrosselIndicadores');
+  const botaoAnterior = document.getElementById('carrosselAnterior');
+  const botaoProxima = document.getElementById('carrosselProxima');
+  if (!carrossel || !trilho || !indicadoresContainer) return;
+ 
+  const fotos = CONFIG.fotosCarrossel || [];
+ 
+  if (!fotos.length) {
+    carrossel.innerHTML = '<p class="carrossel-vazio">Em breve, fotos da campanha por aqui.</p>';
+    return;
+  }
+ 
+  trilho.innerHTML = fotos.map(foto => `
+    <div class="carrossel-slide">
+     <img src="${foto.src}" alt="${escapeHTML(foto.alt || '')}">
+      ${foto.legenda ? `<p class="carrossel-legenda">${escapeHTML(foto.legenda)}</p>` : ''}
     </div>
   `).join('');
+ 
+  indicadoresContainer.innerHTML = fotos.map((_, indice) => `
+    <button class="carrossel-indicador${indice === 0 ? ' ativo' : ''}" type="button" aria-label="Ir para a foto ${indice + 1}" data-indice="${indice}"></button>
+  `).join('');
+ 
+  const indicadores = indicadoresContainer.querySelectorAll('.carrossel-indicador');
+  const prefereReduzirMovimento = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+ 
+  let indiceAtual = 0;
+  let autoplayId = null;
+ 
+  function irParaSlide(indice) {
+    indiceAtual = (indice + fotos.length) % fotos.length;
+    trilho.style.transform = `translateX(-${indiceAtual * 100}%)`;
+    indicadores.forEach((ponto, i) => ponto.classList.toggle('ativo', i === indiceAtual));
+  }
+ 
+  function proximoSlide() { irParaSlide(indiceAtual + 1); }
+  function slideAnterior() { irParaSlide(indiceAtual - 1); }
+ 
+  function iniciarAutoplay() {
+    if (prefereReduzirMovimento || fotos.length < 2 || document.hidden) return;
+    autoplayId = setInterval(proximoSlide, 8000);
+  }
+ 
+  function pararAutoplay() {
+    if (autoplayId) { clearInterval(autoplayId); autoplayId = null; }
+  }
+ 
+  function reiniciarAutoplay() {
+    pararAutoplay();
+    iniciarAutoplay();
+  }
+ 
+  if (botaoProxima) botaoProxima.addEventListener('click', () => { proximoSlide(); reiniciarAutoplay(); });
+  if (botaoAnterior) botaoAnterior.addEventListener('click', () => { slideAnterior(); reiniciarAutoplay(); });
+ 
+  indicadores.forEach(ponto => {
+    ponto.addEventListener('click', () => {
+      irParaSlide(Number(ponto.dataset.indice));
+      reiniciarAutoplay();
+    });
+  });
+ 
+  carrossel.setAttribute('tabindex', '0');
+  carrossel.addEventListener('keydown', (evento) => {
+    if (evento.key === 'ArrowRight') { proximoSlide(); reiniciarAutoplay(); }
+    if (evento.key === 'ArrowLeft') { slideAnterior(); reiniciarAutoplay(); }
+  });
+ 
+  let toqueInicialX = 0;
+  trilho.addEventListener('touchstart', (evento) => {
+    toqueInicialX = evento.touches[0].clientX;
+    pararAutoplay();
+  }, { passive: true });
+ 
+  trilho.addEventListener('touchend', (evento) => {
+    const deltaX = evento.changedTouches[0].clientX - toqueInicialX;
+    if (Math.abs(deltaX) > 40) {
+      deltaX < 0 ? proximoSlide() : slideAnterior();
+    }
+    reiniciarAutoplay();
+  }, { passive: true });
+ 
+  carrossel.addEventListener('mouseenter', pararAutoplay);
+  carrossel.addEventListener('mouseleave', iniciarAutoplay);
+  carrossel.addEventListener('focusin', pararAutoplay);
+  carrossel.addEventListener('focusout', iniciarAutoplay);
+ 
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) pararAutoplay(); else iniciarAutoplay();
+  });
+ 
+  iniciarAutoplay();
 }
+
+
 
 /* Cronômetro até o dia da entrega */
 function iniciarCronometro() {
