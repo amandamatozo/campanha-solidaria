@@ -26,11 +26,12 @@
   <div class="container cabecalho-conteudo">
     <a href="#topo" class="marca">
       <!-- Trocar o arquivo abaixo pela logo do SEST SENAT -->
-      <img src="img/" alt="Logo do Programa de Aprendizes SEST SENAT" class="marca-logo">
+      <img src="img/logo.campanha.png" alt="Logo do Programa de Aprendizes SEST SENAT" class="marca-logo">
     </a>
 
     <nav class="nav" id="nav">
       <a href="#sobre">Sobre</a>
+      <a href="#galeria">Galeria</a>
       <a href="#itens">Itens</a>
       <a href="#coleta">Pontos de Coleta</a>
       <a href="#progresso">Progresso</a>
@@ -110,6 +111,23 @@
     </div>
   </section>
 
+  <section id="galeria" class="secao reveal">
+    <div class="container">
+      <p class="etiqueta etiqueta-escura">Cada Doação Conta!</p>
+      <div class="carrossel" id="carrossel" role="region" aria-roledescription="carrossel" aria-label="Fotos da campanha">
+        <div class="carrossel-corpo">
+          <div class="carrossel-viewport" id="carrosselViewport">
+            <div class="carrossel-trilho" id="carrosselTrilho"><!-- slides gerados via JavaScript a partir de CONFIG.fotosCarrossel --></div>
+          </div>
+          <button class="carrossel-seta carrossel-seta-anterior" id="carrosselAnterior" type="button" aria-label="Foto anterior">‹</button>
+          <button class="carrossel-seta carrossel-seta-proxima" id="carrosselProxima" type="button" aria-label="Próxima foto">›</button>
+        </div>
+        <div class="carrossel-indicadores" id="carrosselIndicadores"><!-- indicadores gerados via JavaScript --></div>
+      </div>
+    </div>
+  </section>
+ 
+
   <section id="itens" class="secao secao-alt reveal">
     <div class="container">
       <p class="etiqueta etiqueta-escura">O que arrecadar</p>
@@ -159,7 +177,7 @@
 
 <footer class="rodape">
   <div class="container rodape-conteudo">
-    <p>Uma iniciativa do Programa de Aprendizes SEST SENAT.</p>
+    <p><strong>Uma iniciativa do Programa de Aprendizes SEST SENAT.</strong></p>
     <button id="shareBtn" class="botao botao-ambar" type="button">Compartilhar no WhatsApp</button>
   </div>
 </footer>
